@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Local Social, inequalities and digital confidence</title>
+  <meta name="description" content="A simple access layer for Weymouth and Portland, designed for people with low digital confidence, and for those without smartphones." />
+
+  <style>
+    :root{
+      --bg: #0b0f14;
+      --panel: rgba(255,255,255,0.06);
+      --panel2: rgba(255,255,255,0.08);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.72);
+      --soft: rgba(255,255,255,0.58);
+      --line: rgba(255,255,255,0.12);
+      --shadow: 0 12px 40px rgba(0,0,0,0.35);
+      --shadowLite: 0 10px 28px rgba(0,0,0,0.22);
+      --radius: 18px;
+      --max: 980px;
+    }
+
+    *{ box-sizing: border-box; }
+    html, body{ height: 100%; }
+
+    body{
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 700px at 20% -10%, rgba(255,255,255,0.10), transparent 55%),
+        radial-gradient(900px 600px at 90% 20%, rgba(255,255,255,0.08), transparent 60%),
+        radial-gradient(900px 900px at 40% 110%, rgba(255,255,255,0.06), transparent 60%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    a{ color: rgba(255,255,255,0.92); text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+
+    .wrap{
+      width: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 28px 18px 80px;
+    }
+
+    .top{
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      padding-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .badge{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+    }
+
+    .hero{
+      margin-top: 18px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04));
+      box-shadow: var(--shadow);
+    }
+
+    h1{
+      margin: 0 0 10px;
+      font-size: clamp(30px, 4.6vw, 52px);
+      line-height: 1.05;
+      letter-spacing: -0.6px;
+    }
+
+    .sub{
+      margin: 0 0 18px;
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--muted);
+      max-width: 78ch;
+    }
+
+    .pills{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .pill{
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+      color: var(--soft);
+      font-size: 13px;
+    }
+
+    .section{
+      margin-top: 18px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.04);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+    }
+
+    .section h2{
+      margin: 0 0 12px;
+      font-size: 20px;
+      letter-spacing: -0.2px;
+    }
+
+    .section p{
+      margin: 0 0 12px;
+      color: var(--muted);
+      max-width: 82ch;
+    }
+
+    .section p:last-child{ margin-bottom: 0; }
+
+    .quote{
+      margin: 12px 0 0;
+      padding-left: 14px;
+      border-left: 2px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.86);
+      font-size: 18px;
+      letter-spacing: -0.1px;
+      max-width: 78ch;
+    }
+
+    /* --- Evidence image, positioned with care --- */
+    .split{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      align-items: start;
+      margin-top: 10px;
+    }
+    @media (min-width: 860px){
+      .split{
+        grid-template-columns: 1.25fr 0.75fr; /* text leads, image supports */
+        gap: 18px;
+      }
+    }
+
+    .aside{
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      padding: 14px;
+    }
+
+    figure{ margin: 0; }
+
+    .image{
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.02);
+      overflow: hidden;
+      max-width: 420px; /* cap it so it doesn't dominate */
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: var(--shadowLite);
+    }
+
+    .image img{
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    figcaption{
+      margin-top: 10px;
+      color: var(--soft);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    /* --- end image --- */
+
+    .list{
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      max-width: 82ch;
+    }
+    .list li{ margin: 6px 0; }
+
+    .footer{
+      margin-top: 18px;
+      padding: 18px 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.03);
+      color: var(--soft);
+      font-size: 13px;
+    }
+    .footer strong{ color: rgba(255,255,255,0.86); }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+
+    <div class="top">
+      <div class="badge">Weymouth and Portland</div>
+      <div class="badge">A simple access layer</div>
+      <div class="badge">Inequalities and digital confidence</div>
+    </div>
+
+    <section class="hero">
+      <h1>The Local Social</h1>
+      <p class="sub">
+        A small, neighbourhood-level access point designed for people who do not feel confident online,
+        and for people who do not have a smartphone at all.
+      </p>
+
+      <div class="pills">
+        <div class="pill">Calm next steps</div>
+        <div class="pill">Plain language</div>
+        <div class="pill">Trusted local routes</div>
+        <div class="pill">Non-stigmatising</div>
+        <div class="pill">Not “smartphone or nothing”</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>The moment we keep missing</h2>
+      <p>
+        Most support pathways begin after someone has already decided what the problem is, how serious it is, and who to contact.
+      </p>
+      <p>
+        But many people do not arrive with that clarity. They arrive with uncertainty, stress, and low confidence, or they do not arrive at all.
+      </p>
+      <p class="quote">
+        In that moment, digital exclusion and low digital confidence quietly become clinical risk.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Who this is for</h2>
+      <p>
+        The Local Social is designed for the people most likely to drop off before they reach the right help, including:
+      </p>
+      <ul class="list">
+        <li>people without smartphones</li>
+        <li>people with low digital confidence, even if they do have a phone</li>
+        <li>families under pressure, including parents who are exhausted and time-poor</li>
+        <li>young people who do not want to be “handled”, or who fear judgement</li>
+        <li>people carrying long-term stress, trauma, or isolation</li>
+        <li>anyone who finds systems hard to navigate when life is messy</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>What it is</h2>
+      <p>
+        The Local Social is a simple access layer to trusted support routes, shaped around how people actually behave in the real world.
+      </p>
+      <p>
+        It offers a small set of calm next steps, in plain language, with local routes first and clear escalation where needed.
+      </p>
+      <p class="quote">
+        It is designed to make finding support easier than staying confused.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>It is not “smartphone or nothing”</h2>
+
+      <div class="split">
+        <div>
+          <p>
+            QR codes are one way in, for people who can use them. But the design principle is wider than QR.
+          </p>
+          <p>
+            The same routes can travel as a short link sent by text, read out over the phone, shared in conversation,
+            or printed as simple one-page options for people who need paper.
+          </p>
+          <p>
+            The point is not the technology. The point is the access.
+          </p>
+          <p class="quote">
+            One neighbourhood, many doorways.
+          </p>
+        </div>
+
+        <aside class="aside">
+          <figure>
+            <div class="image">
+              <img src="TLS.png" alt="A circular The Local Social sticker on a door reading 'What’s going on?' with a QR code and thelocalsocial.org." />
+            </div>
+            <figcaption>
+              A real-world placement. A small, trusted access point that captures the moment of uncertainty outside clinical settings.
+            </figcaption>
+          </figure>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Why it matters for inequalities</h2>
+      <p>
+        The people most likely to struggle with navigation are often the people already carrying the most.
+      </p>
+      <p>
+        When the next step is unclear, or feels embarrassing, or requires confidence people do not have, they delay, minimise, or disappear.
+        Then needs escalate and the system meets them later, louder, and more expensively.
+      </p>
+      <p class="quote">
+        This is an upstream intervention, designed to reduce inequality before it compounds.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Less is more</h2>
+      <p>
+        The Local Social is intentionally small. It does not try to be a comprehensive directory.
+        It focuses on a few high-value routes that matter in moments of pressure.
+      </p>
+      <p>
+        It is designed to feel human, quick, and safe, especially for people who are tired, stressed, or uncertain.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>The promise</h2>
+      <p class="quote">
+        We make finding support easier than staying confused.
+      </p>
+    </section>
+
+    <div class="footer">
+      <strong>Boundaries:</strong> The Local Social is not medical advice and it is not a replacement for professional judgement.
+      It is a simple access layer to trusted support routes, designed to reduce friction, reduce shame, and reduce drop-off.
+    </div>
+
+  </main>
+</body>
+</html>
